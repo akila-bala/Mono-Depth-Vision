@@ -1,0 +1,83 @@
+import os
+import pandas as pd
+import plotly.graph_objects as go
+from PIL import Image
+import numpy as np
+
+image_path = "original_data/test_images/000003.png"
+background_image = Image.open(image_path)
+
+background_image_np = np.array(background_image)
+
+df = pd.read_csv("distance-estimator/data/predictions.csv")
+
+rows_to_process = 50
+
+img_height, img_width, _ = background_image_np.shape
+
+
+fig = go.Figure()
+
+x_plane = np.linspace(0, img_width, img_width)
+y_plane = np.linspace(0, img_height, img_height)
+x_plane, y_plane = np.meshgrid(x_plane, y_plane)
+z_plane = np.zeros_like(x_plane)  
+
+fig.add_trace(go.Surface(
+    x=x_plane,
+    y=y_plane,
+    z=z_plane,
+    surfacecolor=background_image_np[:, :, 0],    
+    showscale=False,
+    opacity=0.9 
+))
+
+for idx, row in df.iterrows():
+    if idx >= rows_to_process:
+        break
+
+    x1 = int(row['xmin'])
+    y1 = int(row['ymin'])
+    x2 = int(row['xmax'])
+    y2 = int(row['ymax'])
+
+    z_actual = row['zloc']
+    z_pred = row['zloc_pred']
+
+    x_center = (x1 + x2) / 2
+    y_center = (y1 + y2) / 2
+
+    fig.add_trace(go.Scatter3d(
+        x=[x_center],
+        y=[y_center],
+        z=[z_actual],
+        mode='markers',
+        marker=dict(size=5, color='green'),
+
+    ))
+
+    fig.add_trace(go.Scatter3d(
+        x=[x_center],
+        y=[y_center],
+        z=[z_pred],
+        mode='markers',
+        marker=dict(size=5, color='red'),
+        name="Predicted Z-Location"
+    ))
+
+fig.update_layout(
+    scene=dict(
+        xaxis=dict(title="X Axis", visible=True, showticklabels=True),
+        yaxis=dict(title="Y Axis", visible=True, showticklabels=True),
+        zaxis=dict(title="Z (Depth)", visible=True, showticklabels=True),
+        aspectratio=dict(x=1, y=img_height / img_width, z=1),  
+    ),
+    title="Interactive 3D Visualization with Image and X, Y Axes",
+    scene_camera=dict(
+        up=dict(x=0, y=0, z=1),
+        center=dict(x=0, y=0, z=0),
+        eye=dict(x=1.5, y=1.5, z=1.5)
+    )
+)
+
+fig.show()
