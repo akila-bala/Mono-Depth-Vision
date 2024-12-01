@@ -17,7 +17,8 @@ This repository provides tools and models for training and evaluating deep learn
 ### 1. Clone the Repository  
 ```bash  
 git clone https://github.com/yourusername/kitti-2d-vision.git  
-cd kitti-2d-vision  
+cd kitti-2d-vision
+```
 
 ### 2. Setup Environment  
 Create a virtual environment and install dependencies:  
