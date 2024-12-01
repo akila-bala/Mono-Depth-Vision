@@ -1,4 +1,3 @@
-```markdown
 # KITTI 2D Vision Training Toolkit 🚗🔍  
 
 This repository provides tools and models for training and evaluating deep learning algorithms on the **2D aspects of the KITTI dataset**, including tasks like **2D object detection**, **stereo vision**, and **semantic segmentation**.
@@ -19,7 +18,6 @@ This repository provides tools and models for training and evaluating deep learn
 ```bash  
 git clone https://github.com/yourusername/kitti-2d-vision.git  
 cd kitti-2d-vision  
-```  
 
 ### 2. Setup Environment  
 Create a virtual environment and install dependencies:  
