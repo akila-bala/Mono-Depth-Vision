@@ -1,4 +1,4 @@
-# KITTI 2D Vision Training Toolkit 🚗🔍  
+# Mono-Depth-Vision
 
 This repository provides tools and models for training and evaluating deep learning algorithms on the **2D aspects of the KITTI dataset**, including tasks like **2D object detection**, **stereo vision**, and **semantic segmentation**.
 
